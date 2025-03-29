@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kid Stories</title>
+<style>
+/* Conteneur de texte avec couleurs personnalisées */
+#text-container {
+width: 100%;
+height: 100%;
+overflow-y: auto;
+font-family: Arial, sans-serif;
+font-size: 18px;
+line-height: 1.6;
+padding: 20px;
+background-color: #f4f4f9; /* Fond du texte */
+color: #333; /* Couleur du texte */
+}
+
+/* Style du titre */
+#title {
+color: #2c3e50; /* Couleur du titre */
+font-size: 24px;
+font-weight: bold;
+}
+
+/* Style des paragraphes */
+.paragraph {
+display: none;
+margin-top: 10px;
+color: #2c3e50; /* Couleur du texte */
+}
+
+/* Style du lecteur audio */
+#audio-player {
+width: 100%;
+background-color: #2c3e50; /* Couleur du fond du lecteur */
+color: #fff; /* Couleur du texte sur le lecteur */
+}
+
+/* Personnalisation de la barre de progression */
+#audio-player::-webkit-media-controls-current-time-display,
+#audio-player::-webkit-media-controls-duration-display {
+color: #fff; /* Couleur du texte de la durée */
+}
+
+/* Personnalisation du bouton de lecture */
+#audio-player::-webkit-media-controls-play-button {
+background-color: #3498db; /* Couleur du bouton de lecture */
+}
+</style>
+</head>
+<body>
+
+<div id="text-container">
+<h1 id="title" class="paragraph">Salut, jeune aventurier et bienvenue sur Kid Stories.</h1>
+<p id="p1" class="paragraph">Tu découvriras ici des histoires spécialement conçues pour toi, qu’elles soient nouvelles ou plus anciennes, pleines de douceur et d’amitié. Des aventures captivantes t’attendent, prêtes à faire jaillir ton imagination et à te faire rêver.</p>
+<p id="p2" class="paragraph">Mais ce n’est pas tout ! Sur Kid Stories, tu as aussi le pouvoir de créer !</p>
+<p id="p3" class="paragraph">Tu peux dessiner tes propres couvertures pour les histoires, ajouter des illustrations et même inventer de nouvelles histoires. C’est ton espace pour partager ta créativité et voir tes idées devenir réelles !</p>
+<p id="p4" class="paragraph">Alors, prêt à rejoindre l’aventure et à montrer ton imagination au monde entier ?</p>
+</div>
+
+<!-- Lecteur audio -->
+<audio id="audio-player" controls>
+<source src="https://files.catbox.moe/pih34f.mp3" type="audio/mp3">
+Ton navigateur ne supporte pas l'élément audio.
+</audio>
+
+<script>
+const audio = document.getElementById('audio-player');
+const textContainer = document.getElementById('text-container');
+
+// Marqueurs de temps pour chaque paragraphe
+const timeMarkers = [
+{ time: 0.00, element: "title" }, // Titre
+{ time: 8.00, element: "p1" }, // Premier paragraphe
+{ time: 18.00, element: "p2" }, // Deuxième paragraphe
+{ time: 28.00, element: "p3" }, // Troisième paragraphe
+{ time: 38.00, element: "p4" }, // Quatrième paragraphe
+];
+
+audio.addEventListener('play', function() {
+setInterval(function() {
+const currentTime = audio.currentTime;
+
+// Afficher les paragraphes au bon moment
+timeMarkers.forEach(marker => {
+if (currentTime >= marker.time) {
+document.getElementById(marker.element).style.display = 'block';
+}
+});
+
+// Défilement progressif du texte en fonction du temps de lecture de l'audio
+const progress = currentTime / audio.duration;
+const scrollHeight = textContainer.scrollHeight;
+textContainer.scrollTop = scrollHeight * progress;
+}, 100); // Mise à jour toutes les 100 ms
+});
+</script>
+
+</body>
+</html>
